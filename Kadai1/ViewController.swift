@@ -8,7 +8,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-
     @IBOutlet private weak var num1TextField: UITextField!
     @IBOutlet private weak var num2TextField: UITextField!
     @IBOutlet private weak var num3TextField: UITextField!
@@ -16,14 +15,20 @@ class ViewController: UIViewController {
     @IBOutlet private weak var num5TextField: UITextField!
     @IBOutlet private weak var resultLabel: UILabel!
 
-    @IBAction private func pressButton(_ sender: Any) {
-        let numsArray: [Int] = [Int(num1TextField.text ?? "") ?? 0,
-                                Int(num2TextField.text ?? "") ?? 0,
-                                Int(num3TextField.text ?? "") ?? 0,
-                                Int(num4TextField.text ?? "") ?? 0,
-                                Int(num5TextField.text ?? "") ?? 0]
+    private var textFields: [UITextField] {
+        [num1TextField,
+         num2TextField,
+         num3TextField,
+         num4TextField,
+         num5TextField]
+    }
 
-        let resultNum = numsArray.reduce(0) { $0 + $1 }
-        resultLabel.text = "\(resultNum)"
+    @IBAction private func pressButton(_ sender: Any) {
+        resultLabel.text = String(
+            textFields
+                .compactMap { $0.text }
+                .compactMap { Int($0) }
+                .reduce(0, +)
+        )
     }
 }
